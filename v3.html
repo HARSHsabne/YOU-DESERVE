@@ -6,119 +6,47 @@
     <title>You Deserve | Skin, Hair & Laser Nanded</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
         
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #fff; color: #111; }
-        
-        /* 1. SCROLLING MEDIA STRIP */
-        .media-strip {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 12px;
-            padding: 20px;
-            scrollbar-width: none;
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #fff; color: #111; overflow-x: hidden; }
+
+        /* Scroll Progress */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: #e11d48; z-index: 1000; width: 0%;
+            transition: width 0.1s ease-out;
         }
-        .media-strip::-webkit-scrollbar { display: none; }
-        .media-strip div {
-            flex: 0 0 300px;
-            height: 400px;
-            background: #f0f0f0;
-            scroll-snap-align: start;
-            border-radius: 4px;
-            overflow: hidden;
+
+        /* Reveal Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .media-strip img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.1); }
-
-        /* Floating WhatsApp */
-        .wa-float {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            z-index: 1000;
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-    </style>
-</head>
-<body>
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
 
-    <a href="https://wa.me/91XXXXXXXXXX" class="wa-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+        /* Hero Shine Effect */
+        @keyframes textShine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .shine-text {
+            background: linear-gradient(90deg, #111, #e11d48, #111);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 3s linear infinite;
+        }
 
-<nav class="p-4 md:p-6 flex justify-between items-center border-b border-black bg-white sticky top-0 z-50">
-    <div class="flex items-center">
-        <a href="#home">
-            <img src="https://i.ibb.co/ZpBYJYL5/Screenshot-2026-04-15-120438.png" 
-                 alt="YouDeserv Logo" 
-                 class="h-12 md:h-16 w-auto object-contain">
-        </a>
-    </div>
-
-    <div class="flex gap-4 md:gap-8 items-center">
-        <a href="tel:+910000000000" class="hidden md:block font-bold underline uppercase text-[10px] tracking-widest text-[#1a2e5a]">
-            Call Clinic
-        </a>
-        
-        <a href="#contact" class="bg-black text-white px-5 md:px-8 py-2 md:py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-800 transition-all border border-black">
-            Book Slot
-        </a>
-    </div>
-</nav>
-
-<style>
-   <style>
-    .reel-strip {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 12px;
-        padding: 20px;
-        scrollbar-width: none;
-    }
-    .reel-strip::-webkit-scrollbar { display: none; }
-    
-    .reel-item {
-        flex: 0 0 280px;
-        height: 480px; /* Taller for Reel/Smartphone aspect ratio */
-        background: #000;
-        scroll-snap-align: start;
-        border: 1px solid #000;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .reel-item video, .reel-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .reel-tag {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        background: rgba(0,0,0,0.6);
-        color: white;
-        padding: 4px 12px;
-        font-size: 10px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        backdrop-filter: blur(5px);
-    }
-  
-          /* 1. VERTICAL REEL STRIP */
+        /* Vertical Reel Strip */
         .reel-strip {
             display: flex;
             overflow-x: auto;
@@ -128,211 +56,389 @@
             scrollbar-width: none;
         }
         .reel-strip::-webkit-scrollbar { display: none; }
-        .reel-strip .reel-item {
+        .reel-item {
             flex: 0 0 280px;
-            height: 500px; /* Vertical Reel Height */
+            height: 500px;
             background: #000;
             scroll-snap-align: start;
             border-radius: 8px;
             overflow: hidden;
             position: relative;
         }
-        .reel-item video { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* WhatsApp Button */
-        .wa-float {
-            position: fixed; bottom: 25px; right: 25px; background: #25d366;
-            color: white; width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); z-index: 1000;
+
+        /* Consultation Drawer */
+        #consult-drawer {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-  
-</style>
+        #consult-drawer.active { transform: translateX(0); }
+        .drawer-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
 
-<section class="py-10 bg-white">
-    <div class="reel-strip">
-        
-        <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWQzjVtjSPv/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
-                <a href="https://www.instagram.com/reel/DWQzjVtjSPv/"></a>
-            </blockquote>
+    <div id="scroll-progress"></div>
+
+    <div id="drawer-overlay" class="drawer-overlay fixed inset-0 bg-black/60 backdrop-blur-sm z-[1001]" onclick="toggleDrawer()"></div>
+
+    <button onclick="toggleDrawer()" class="fixed bottom-6 right-6 bg-[#25D366] text-white px-6 py-4 rounded-full shadow-2xl z-[1000] flex items-center gap-3 hover:scale-105 transition-all">
+        <i class="fab fa-whatsapp text-xl"></i>
+        <span class="text-xs font-bold uppercase tracking-widest">Consult Now</span>
+    </button>
+
+    <div id="consult-drawer" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-[#f0f2f5] z-[1002] shadow-2xl flex flex-col">
+        <div class="bg-[#075e54] p-6 text-white">
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center border border-white/30">
+                        <i class="fas fa-user-md text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg leading-tight">You Deserve Clinic</h3>
+                        <p class="text-[10px] opacity-80 uppercase tracking-widest">Typically replies in minutes</p>
+                    </div>
+                </div>
+                <button onclick="toggleDrawer()" class="hover:rotate-90 transition-transform">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p class="text-sm bg-black/10 p-3 rounded-lg border border-white/10">
+                Hi there! 👋<br>Fill out the details below to start your digital skin/hair consultation.
+            </p>
         </div>
 
-        <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DKWefIZJd32/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
-                <a href="https://www.instagram.com/reel/DKWefIZJd32/"></a>
-            </blockquote>
+        <div class="p-8 flex-1 overflow-y-auto">
+            <form onsubmit="handleConsultation(event)" class="space-y-6 bg-white p-6 rounded-xl shadow-sm border border-zinc-200">
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">Patient Name</label>
+                    <input type="text" id="c-name" required class="w-full border-b border-zinc-200 py-2 focus:border-[#25D366] outline-none transition-colors text-sm" placeholder="e.g. Rahul Sharma">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">Primary Concern</label>
+                    <select id="c-concern" class="w-full border-b border-zinc-200 py-2 focus:border-[#25D366] outline-none transition-colors text-sm bg-transparent">
+                        <option>Acne & Scarring</option>
+                        <option>Hair Loss / Thinning</option>
+                        <option>Laser Hair Removal</option>
+                        <option>Pigmentation/Glow</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">WhatsApp Number</label>
+                    <input type="tel" id="c-phone" required class="w-full border-b border-zinc-200 py-2 focus:border-[#25D366] outline-none transition-colors text-sm" placeholder="+91">
+                </div>
+                <button type="submit" class="w-full bg-[#25D366] text-white py-4 rounded-lg font-bold uppercase text-xs tracking-widest flex items-center justify-center gap-2 hover:bg-[#128c7e] transition-colors shadow-lg shadow-[#25D366]/20">
+                    Start Chat <i class="fab fa-whatsapp text-lg"></i>
+                </button>
+            </form>
         </div>
-
-        <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DMF2DXGJuGy/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
-                <a href="https://www.instagram.com/reel/DMF2DXGJuGy/"></a>
-            </blockquote>
+        <div class="p-6 text-center text-[9px] text-zinc-400 uppercase tracking-tighter">
+            Secure & Private Consultation • Nanded, MH
         </div>
-
-        <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DXEj_ARiZzr/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
-                <a href="https://www.instagram.com/reel/DXEj_ARiZzr/"></a>
-            </blockquote>
-        </div>
-
     </div>
-</section>
 
-<script async src="//www.instagram.com/embed.js"></script>
-  
-    <header class="px-6 py-20">
-        <div class="max-w-5xl mx-auto">
-            <p class="text-xs font-bold uppercase tracking-[0.3em] text-rose-600 mb-6">/ Nanded's #1 Skin Clinic</p>
-            <h1 class="text-6xl md:text-9xl font-bold leading-[0.85] tracking-tighter mb-12">
-                BETTER SKIN <br> STARTS HERE.
-            </h1>
+    <nav class="p-4 md:p-6 flex justify-between items-center border-b border-black bg-white sticky top-0 z-50">
+        <a href="#home">
+            <img src="https://i.ibb.co/ZpBYJYL5/Screenshot-2026-04-15-120438.png" alt="Logo" class="h-12 md:h-16 w-auto object-contain">
+        </a>
+        <div class="flex gap-4 md:gap-8 items-center">
+            <a href="tel:+910000000000" class="hidden md:block font-bold underline uppercase text-[10px] tracking-widest text-[#1a2e5a]">Call Clinic</a>
+            <a href="#contact" class="bg-black text-white px-5 md:px-8 py-2 md:py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-800 transition-all border border-black">Book Slot</a>
+        </div>
+    </nav>
+
+    <section class="py-10 bg-white">
+        <div class="reel-strip">
+            <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWQzjVtjSPv/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
+                    <a href="https://www.instagram.com/reel/DWQzjVtjSPv/"></a>
+                </blockquote>
+            </div>
+            <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DKWefIZJd32/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
+                    <a href="https://www.instagram.com/reel/DKWefIZJd32/"></a>
+                </blockquote>
+            </div>
+            <div class="reel-item !bg-white overflow-y-auto border border-zinc-100">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DMF2DXGJuGy/" data-instgrm-version="14" style="background:#FFF; border:0; margin:0; width:100%;">
+                    <a href="https://www.instagram.com/reel/DMF2DXGJuGy/"></a>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <header class="px-6 py-20 bg-white overflow-hidden">
+        <div class="max-w-5xl mx-auto reveal">
+            <p class="text-xs font-bold uppercase tracking-[0.3em] text-rose-600 mb-6">// Nanded's #1 Skin Clinic</p>
+            <h1 class="text-6xl md:text-9xl font-bold leading-[0.85] tracking-tighter mb-12 shine-text">BETTER SKIN <br> STARTS HERE.</h1>
             <div class="grid md:grid-cols-2 gap-10">
-                <p class="text-lg font-medium leading-relaxed">
-                    Vazirabad’s most advanced centre for medical-grade laser hair reduction, hair restoration, and chemical peels. No fluff. Just results.
-                </p>
-                <div class="text-sm font-bold flex flex-col gap-2">
-                    <p><i class="fas fa-check-circle mr-2"></i> US-FDA APPROVED MACHINES</p>
-                    <p><i class="fas fa-check-circle mr-2"></i> CERTIFIED DERMATOLOGISTS</p>
-                    <p><i class="fas fa-check-circle mr-2"></i> 1500+ SUCCESSFUL TREATMENTS</p>
+                <p class="text-lg font-medium leading-relaxed reveal delay-100">Vazirabad’s most advanced centre for aesthetic excellence and dermatology.</p>
+                <div class="text-sm font-bold flex flex-col gap-4">
+                    <p class="reveal delay-100 flex items-center"><i class="fas fa-check-circle mr-3 text-rose-600"></i> US-FDA APPROVED</p>
+                    <p class="reveal delay-200 flex items-center"><i class="fas fa-check-circle mr-3 text-rose-600"></i> CERTIFIED DOCTORS</p>
+                    <p class="reveal delay-300 flex items-center text-xl tracking-tighter">
+                       <span class="counter text-3xl font-black" data-target="1500">0</span>+ TREATMENTS
+                    </p>
                 </div>
             </div>
         </div>
     </header>
-
-    <section class="bg-black text-white py-24 px-6">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div class="border border-white/20 p-4">
-                <img src="REPLACE_WITH_DR_REAL_PHOTO.jpg" alt="Dr. At You Deserve" class="w-full h-auto bg-zinc-800">
+  
+   <section class="bg-black text-white py-24 px-6 overflow-hidden">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div class="relative reveal">
+            <div class="border border-white/20 p-4 relative z-10">
+                <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80" 
+                     alt="Dr. At You Deserve" 
+                     class="w-full h-auto grayscale contrast-125 hover:grayscale-0 transition-all duration-700">
             </div>
-            <div>
-                <h2 class="text-4xl font-bold mb-6 italic italic uppercase">The Expert Behind Your Glow.</h2>
-                <p class="text-zinc-400 mb-6 leading-relaxed">
-                    Under the leadership of Nanded's leading skincare experts, <strong>You Deserve Clinic</strong> was built on a simple promise: you don't need a hundred products; you need one expert diagnosis.
-                </p>
-                <div class="flex gap-6">
-                    <a href="mailto:contact@youdeserve.com" class="text-sm font-bold underline hover:text-rose-500 transition">EMAIL DR.</a>
-                    <a href="https://instagram.com/youdeservecinic" class="text-sm font-bold underline hover:text-rose-500 transition">INSTAGRAM</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-   <section class="py-24 px-6 border-t border-black bg-white">
-    <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-end mb-12"> 
-            <div>
-                <p class="text-rose-600 font-bold text-xs uppercase tracking-widest mb-2">// Proven Results</p>
-                <h2 class="text-5xl md:text-6xl font-extrabold uppercase tracking-tighter italic">Live Case Studies.</h2>
-            </div>
-            <div class="hidden md:block text-right">
-                <p class="text-sm font-bold uppercase tracking-widest">Verified <br> Transformations</p>
-            </div>
+            <div class="absolute -bottom-6 -right-6 w-full h-full border-2 border-rose-600 z-0"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="reveal delay-200">
+            <span class="text-rose-500 font-bold text-xs uppercase tracking-[0.4em] mb-4 block">// Meet Your Expert</span>
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 italic uppercase tracking-tighter leading-none">
+                The Science <br> Behind the <span class="text-zinc-500 underline decoration-rose-600">Glow.</span>
+            </h2>
             
-            <div class="group cursor-pointer">
-                <div class="relative overflow-hidden bg-zinc-100 aspect-[16/10] border border-black">
-                    <div class="flex h-full w-full">
-                        <div class="w-1/2 border-r border-black relative">
-                            <img src="https://i.ibb.co/PvjG81S7/image.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Before">
-                            <span class="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-bold uppercase">Before</span>
-                        </div>
-                        <div class="w-1/2 relative">
-                            <img src="https://i.ibb.co/spJ0s9Bt/image.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="After">
-                            <span class="absolute bottom-2 right-2 bg-rose-600 text-white text-[10px] px-2 py-1 font-bold uppercase">After</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-6 flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-2xl uppercase tracking-tighter">Acne & Scar Treatment</h3>
-                        <p class="text-xs font-bold text-zinc-400 uppercase mt-1">Treatment: Laser Resurfacing | Result: Clear Texture</p>
-                    </div>
-                    <div class="h-10 w-10 border border-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors">
-                        <i class="fas fa-arrow-right -rotate-45"></i>
-                    </div>
-                </div>
+            <div class="space-y-6 text-zinc-400 text-lg leading-relaxed">
+                <p>
+                    Led by Nanded's premier aesthetic specialists, <strong>You Deserve Clinic</strong> bridges the gap between clinical dermatology and luxury wellness. 
+                </p>
+                <p>
+                    We believe skincare isn't a luxury—it's a clinical necessity. Our approach focuses on US-FDA approved technologies and personalized protocols designed specifically for Indian skin types.
+                </p>
             </div>
 
-            <div class="group cursor-pointer">
-                <div class="relative overflow-hidden bg-zinc-100 aspect-[16/10] border border-black">
-                    <div class="flex h-full w-full">
-                        <div class="w-1/2 border-r border-black relative">
-                            <img src="https://i.ibb.co/pjLd0R2F/image.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Before">
-                            <span class="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-bold uppercase">Before</span>
-                        </div>
-                        <div class="w-1/2 relative">
-                            <img src="https://i.ibb.co/pBPHCvX9/image.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="After">
-                            <span class="absolute bottom-2 right-2 bg-rose-600 text-white text-[10px] px-2 py-1 font-bold uppercase">After</span>
-                        </div>
-                    </div>
+            <div class="mt-12 flex flex-wrap gap-8 items-center">
+                <div>
+                    <p class="text-white font-black text-2xl uppercase tracking-tighter">MBBS, MD</p>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Dermatology & Cosmetology</p>
                 </div>
-                <div class="mt-6 flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-2xl uppercase tracking-tighter">Advanced Hair Regrowth</h3>
-                        <p class="text-xs font-bold text-zinc-400 uppercase mt-1">Treatment: GFC + PRP Therapy | Result: Improved Density</p>
-                    </div>
-                    <div class="h-10 w-10 border border-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors">
-                        <i class="fas fa-arrow-right -rotate-45"></i>
-                    </div>
+                <div class="h-12 w-[1px] bg-zinc-800 hidden md:block"></div>
+                <div class="flex gap-6">
+                    <a href="https://instagram.com/youdeserve.aesthetics" target="_blank" class="text-xs font-bold underline decoration-rose-600 underline-offset-8 hover:text-white transition-colors uppercase tracking-widest">Follow on IG</a>
                 </div>
             </div>
-
-        </div>
-        
-        <div class="mt-16 text-center">
-            <a href="https://instagram.com/youdeserv.aesthetics" target="_blank" class="inline-block border-2 border-black px-10 py-4 font-extrabold uppercase tracking-widest hover:bg-black hover:text-white transition-all">
-                View 100+ More on Instagram
-            </a>
         </div>
     </div>
 </section>
-  
-    <section class="py-24 border-t border-black px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex items-center gap-4 mb-12">
-                <span class="text-4xl font-bold">4.9</span>
-                <div class="text-rose-600 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <span class="text-xs font-bold uppercase tracking-widest text-zinc-500">Google Rating</span>
-            </div>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="border-l-2 border-black pl-6">
-                    <p class="text-sm font-medium italic">"Best doctor in Nanded for skin issues. Very professional approach."</p>
-                    <p class="text-xs font-bold uppercase mt-4">— Rajesh Rao</p>
+
+    <section class="py-24 px-6 bg-zinc-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold uppercase tracking-tighter mb-16 italic reveal">Core Treatments.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="group relative bg-black h-[400px] overflow-hidden cursor-pointer reveal">
+                    <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc206e?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end text-white">
+                        <span class="text-[10px] font-bold tracking-[0.3em] mb-2 text-rose-500 uppercase">01 / Laser</span>
+                        <h3 class="text-3xl font-bold uppercase leading-none">Painless Hair Removal</h3>
+                        <div class="max-h-0 group-hover:max-h-24 transition-all duration-500 overflow-hidden">
+                            <p class="text-xs mt-4 text-zinc-300 uppercase tracking-widest leading-relaxed">US-FDA Gold Standard Laser for all Indian skin types.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="border-l-2 border-black pl-6">
-                    <p class="text-sm font-medium italic">"The HydraFacial glow stayed for weeks. Definitely coming back."</p>
-                    <p class="text-xs font-bold uppercase mt-4">— Priya M.</p>
+                <div class="group relative bg-black h-[400px] overflow-hidden cursor-pointer reveal delay-100">
+                    <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end text-white">
+                        <span class="text-[10px] font-bold tracking-[0.3em] mb-2 text-rose-500 uppercase">02 / Skin</span>
+                        <h3 class="text-3xl font-bold uppercase leading-none">Medical HydraFacial</h3>
+                        <div class="max-h-0 group-hover:max-h-24 transition-all duration-500 overflow-hidden">
+                            <p class="text-xs mt-4 text-zinc-300 uppercase tracking-widest leading-relaxed">Deep exfoliation and antioxidant infusion for instant glow.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="border-l-2 border-black pl-6">
-                    <p class="text-sm font-medium italic">"Painless laser treatment. Best experience so far."</p>
-                    <p class="text-xs font-bold uppercase mt-4">— Samiksha G.</p>
+                <div class="group relative bg-black h-[400px] overflow-hidden cursor-pointer reveal delay-200">
+                    <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end text-white">
+                        <span class="text-[10px] font-bold tracking-[0.3em] mb-2 text-rose-500 uppercase">03 / Hair</span>
+                        <h3 class="text-3xl font-bold uppercase leading-none">GFC / PRP Therapy</h3>
+                        <div class="max-h-0 group-hover:max-h-24 transition-all duration-500 overflow-hidden">
+                            <p class="text-xs mt-4 text-zinc-300 uppercase tracking-widest leading-relaxed">Growth Factor Concentrate to stop hair fall permanently.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="border-t border-black">
-        <div class="grid md:grid-cols-2">
-            <div class="p-12 md:p-24 border-b md:border-b-0 md:border-r border-black">
-                <h2 class="text-5xl font-bold tracking-tighter mb-8">LOCATE US.</h2>
-                <div class="space-y-6 text-sm font-bold uppercase tracking-widest">
-                    <p><i class="fas fa-map-marker-alt mr-4 text-rose-600"></i> Vazirabad, Nanded, Maharashtra</p>
-                    <p><i class="fas fa-phone mr-4 text-rose-600"></i> +91 0000 000 000</p>
-                    <p><i class="fas fa-envelope mr-4 text-rose-600"></i> info@youdeserveclinic.com</p>
+    <section class="py-24 px-6 border-t border-black bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl md:text-6xl font-extrabold uppercase tracking-tighter italic mb-12 reveal">Live Case Studies.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="group cursor-pointer reveal">
+                    <div class="relative overflow-hidden bg-zinc-100 aspect-[16/9] border border-black">
+                        <div class="flex h-full w-full">
+                            <div class="w-1/2 border-r border-black relative">
+                                <img src="https://i.ibb.co/PvjG81S7/image.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Before">
+                                <span class="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-bold uppercase">Before</span>
+                            </div>
+                            <div class="w-1/2 relative">
+                                <img src="https://i.ibb.co/spJ0s9Bt/image.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="After">
+                                <span class="absolute bottom-2 right-2 bg-rose-600 text-white text-[10px] px-2 py-1 font-bold uppercase">After</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-2xl uppercase mt-6">Acne & Scar Treatment</h3>
                 </div>
-            </div>
-            <div class="bg-zinc-200">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.317544321!2d77.3090!3d19.16!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA5JzM2LjAiTiA3N8KwMTgnMzIuNCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0; min-height: 400px;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="group cursor-pointer reveal delay-100">
+                    <div class="relative overflow-hidden bg-zinc-100 aspect-[16/9] border border-black">
+                        <div class="flex h-full w-full">
+                            <div class="w-1/2 border-r border-black relative">
+                                <img src="https://i.ibb.co/pjLd0R2F/image.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Before">
+                                <span class="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-bold uppercase">Before</span>
+                            </div>
+                            <div class="w-1/2 relative">
+                                <img src="https://i.ibb.co/pBPHCvX9/image.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="After">
+                                <span class="absolute bottom-2 right-2 bg-rose-600 text-white text-[10px] px-2 py-1 font-bold uppercase">After</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-2xl uppercase mt-6">Advanced Hair Regrowth</h3>
+                </div>
             </div>
         </div>
     </section>
+  
+  <section id="contact" class="border-t border-black bg-white overflow-hidden">
+    <div class="flex flex-col md:flex-row">
+        <div class="w-full md:w-1/2 p-8 md:p-16 border-b md:border-b-0 md:border-r border-black reveal">
+            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-12 italic">Visit the <br>Clinic.</h2>
+            
+            <div class="space-y-10">
+                <div class="flex gap-6">
+                    <div class="text-rose-600 text-2xl"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 mb-2">Location</h4>
+                        <p class="text-xl font-bold uppercase leading-tight">Vazirabad, Nanded,<br>Maharashtra 431601</p>
+                        <a href="https://maps.google.com" target="_blank" class="text-[10px] font-bold uppercase underline mt-4 block hover:text-rose-600 transition-colors">Get Directions</a>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="text-rose-600 text-2xl"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 mb-2">Clinic Hours</h4>
+                        <p class="text-xl font-bold uppercase">Mon — Sat: 11AM - 8PM</p>
+                        <p class="text-sm font-medium text-zinc-500 italic">Sunday by Appointment Only</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="text-rose-600 text-2xl"><i class="fas fa-phone-alt"></i></div>
+                    <div>
+                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 mb-2">Direct Line</h4>
+                        <p class="text-xl font-bold uppercase">+91 00000 00000</p>
+                        <div class="flex gap-4 mt-4">
+                            <a href="#" class="w-10 h-10 border border-black flex items-center justify-center hover:bg-black hover:text-white transition-all"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="w-10 h-10 border border-black flex items-center justify-center hover:bg-black hover:text-white transition-all"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 h-[400px] md:h-auto grayscale contrast-125 hover:grayscale-0 transition-all duration-1000">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.123456789!2d77.31!3d19.15!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd1d66bb9d31721%3A0x4411649e79397637!2sVazirabad%2C%20Nanded%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v123456789" 
+                width="100%" 
+                height="100%" 
+                style="border:0; min-height: 450px;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+    </div>
+</section>
 
     <footer class="p-6 text-center text-[10px] font-bold uppercase tracking-[0.5em] border-t border-black">
         © 2026 YOU DESERVE SKIN HAIR LASER — NANDED
     </footer>
+
+    <script async src="//www.instagram.com/embed.js"></script>
+    <script>
+        // Drawer Logic
+        function toggleDrawer() {
+            document.getElementById('consult-drawer').classList.toggle('active');
+            document.getElementById('drawer-overlay').classList.toggle('active');
+        }
+
+        // Auto-Open Logic
+        window.addEventListener('load', () => {
+            if (!sessionStorage.getItem('drawerOpened')) {
+                setTimeout(() => {
+                    toggleDrawer();
+                    sessionStorage.setItem('drawerOpened', 'true');
+                }, 3000);
+            }
+        });
+
+        // WhatsApp Form
+        function handleConsultation(e) {
+            e.preventDefault();
+            const name = document.getElementById('c-name').value;
+            const concern = document.getElementById('c-concern').value;
+            const phone = document.getElementById('c-phone').value;
+            const clinicNumber = "910000000000"; 
+            const message = `*NEW CONSULTATION REQUEST*%0A%0A*Name:* ${name}%0A*Concern:* ${concern}%0A*Phone:* ${phone}`;
+            window.open(`https://wa.me/${clinicNumber}?text=${message}`, '_blank');
+            toggleDrawer();
+        }
+
+        // Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        });
+
+        // Counter Logic
+        const startCounter = (el) => {
+            const target = +el.getAttribute('data-target');
+            const speed = 150; 
+            const inc = target / speed;
+            const update = () => {
+                const count = +el.innerText;
+                if (count < target) {
+                    el.innerText = Math.ceil(count + inc);
+                    setTimeout(update, 15);
+                } else {
+                    el.innerText = target;
+                }
+            };
+            update();
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 1 });
+
+        document.querySelectorAll('.counter').forEach(c => counterObserver.observe(c));
+    </script>
 
 </body>
 </html>
